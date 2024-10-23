@@ -67,8 +67,12 @@ func GetConfig() *FairShareConfig {
 
 func loadConfig(path string) fairShareRawConfig {
 
-	viper.SetEnvPrefix(defaultENVPrefix)
 	viper.AutomaticEnv()
+	viper.BindEnv("Message", defaultENVPrefix+"MESSAGE")
+	viper.BindEnv("HTTP.Host", defaultENVPrefix+"HTTP_HOST")
+	viper.BindEnv("HTTP.Port", defaultENVPrefix+"HTTP_PORT")
+	viper.BindEnv("Activities.Minselection", defaultENVPrefix+"ACTIVITIES_MINSELECTION")
+	viper.BindEnv("Activities.Maxselection", defaultENVPrefix+"ACTIVITIES_MAXSELECTION")
 	viper.SetConfigFile(path)
 	err := viper.ReadInConfig()
 	if err != nil {
