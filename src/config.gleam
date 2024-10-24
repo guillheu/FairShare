@@ -3,22 +3,19 @@ import glaml
 import gleam/int
 
 import config/generics
-import config/subconfigs/activities
 import config/subconfigs/admin_accounts
 import config/subconfigs/http
 
-pub opaque type GroupMakerConfig {
+pub opaque type FairShareConfig {
   GMConfig(
     http_server_config: http.HTTPServerConfig,
-    activities_config: activities.ActivitiesConfig,
     admin_accounts_config: admin_accounts.AdminAccountsConfig,
   )
 }
 
-pub type GroupMakerConfigUnvalidated {
+pub type FairShareConfigUnvalidated {
   GMConfigUnvalidated(
     http_server_config: http.HTTPServerConfigUnvalidated,
-    activities_config: activities.ActivitiesConfigUnvalidated,
     admin_accounts_config: admin_accounts.AdminAccountsConfigUnvalidated,
   )
 }
@@ -27,7 +24,7 @@ pub type GroupMakerConfigUnvalidated {
 /// We assume the given config file contains ALL the necessary fields.
 /// No default value will be applied.
 /// Any missing/poorly formatted field will result in a crash
-pub fn load_config(config_path: String) -> GroupMakerConfig {
+pub fn load(config_path: String) -> FairShareConfig {
   case filepath.extension(config_path) {
     Ok(extension) if extension == "yaml" || extension == "yml" -> Nil
     _ -> panic as "config file should be a .yaml or .yml file"
@@ -52,10 +49,6 @@ pub fn load_config(config_path: String) -> GroupMakerConfig {
     http.from_yaml(yaml_config)
     |> generics.validate_yaml_get_result(config_path)
 
-  let activities_config =
-    activities.from_yaml(yaml_config)
-    |> generics.validate_yaml_get_result(config_path)
-
   let admin_accounts =
     admin_accounts.from_yaml(yaml_config)
     |> generics.validate_yaml_get_result(config_path)
@@ -65,13 +58,12 @@ pub fn load_config(config_path: String) -> GroupMakerConfig {
   // |> admin_accounts.validate()
   // |> generics.validate_yaml_get_result(config_path)
 
-  GMConfig(http_config, activities_config, admin_accounts)
+  GMConfig(http_config, admin_accounts)
 }
 
-pub fn read(group_maker_config: GroupMakerConfig) -> GroupMakerConfigUnvalidated {
+pub fn read(group_maker_config: FairShareConfig) -> FairShareConfigUnvalidated {
   GMConfigUnvalidated(
     http.read(group_maker_config.http_server_config),
-    activities.read(group_maker_config.activities_config),
     admin_accounts.read(group_maker_config.admin_accounts_config),
   )
 }

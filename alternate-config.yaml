@@ -11,3 +11,6 @@ admin_accounts:
 - name: midna
   pw_hash: "d932de68dd7c4ab788c24c4ed0d97ba467dddc29ce2157e3ed7786881e28b029"
   salt: "3639343231"
+- name: admin2
+  pw_hash: "d932de68dd7c4ab788c24c4ed0d97ba467dddc29ce2157e3ed7786881e28b029"
+  salt: "3639343231"
