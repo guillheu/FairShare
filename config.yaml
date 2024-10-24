@@ -1,9 +1,6 @@
 http:
   port: 8080
   host: 0.0.0.0
-activities:
-  maxSelection: 2
-  minSelection: 0
 adminAccounts:
 - name: admin
   pwHash: "8e01326bebf64c86cd1e30f4bb64283da881783b4aaedac27a843c2ccb340213"
@@ -11,4 +8,3 @@ adminAccounts:
 - name: midna
   pwHash: "d932de68dd7c4ab788c24c4ed0d97ba467dddc29ce2157e3ed7786881e28b029"
   salt: "3639343231"
-message: "Oh hi Mark"
