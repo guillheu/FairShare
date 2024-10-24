@@ -1,10 +1,13 @@
 http:
   port: 8080
   host: 0.0.0.0
-adminAccounts:
+activities:
+  max_select: 2
+  min_select: 0
+admin_accounts:
 - name: admin
-  pwHash: "8e01326bebf64c86cd1e30f4bb64283da881783b4aaedac27a843c2ccb340213"
+  pw_hash: "8e01326bebf64c86cd1e30f4bb64283da881783b4aaedac27a843c2ccb340213"
   salt: "3639343230"
 - name: midna
-  pwHash: "d932de68dd7c4ab788c24c4ed0d97ba467dddc29ce2157e3ed7786881e28b029"
+  pw_hash: "d932de68dd7c4ab788c24c4ed0d97ba467dddc29ce2157e3ed7786881e28b029"
   salt: "3639343231"
