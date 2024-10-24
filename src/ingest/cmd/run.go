@@ -18,7 +18,7 @@ var runCmd = &cobra.Command{
 	},
 }
 
-const defaultHost string = "9.9.9.9"
+const defaultHost string = "0.0.0.0"
 const defaultPort int = 8025
 
 func initRun() {
