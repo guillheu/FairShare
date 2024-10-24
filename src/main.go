@@ -1,12 +1,7 @@
 package main
 
-import (
-	"fmt"
-
-	"github.com/guillheu/FairShare/src/ingest/config"
-)
+import "github.com/guillheu/FairShare/src/ingest/cmd"
 
 func main() {
-	configInstance := config.GetConfig()
-	fmt.Print(configInstance)
+	cmd.Execute()
 }

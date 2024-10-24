@@ -1,6 +1,6 @@
 http:
   port: 8080
-  host: 0.0.0.0
+  host: 1.2.3.4
 adminAccounts:
 - name: admin
   pwHash: "8e01326bebf64c86cd1e30f4bb64283da881783b4aaedac27a843c2ccb340213"

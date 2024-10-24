@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/guillheu/FairShare/src/util/errh"
 	"github.com/spf13/viper"
 )
@@ -35,24 +37,16 @@ type AdminAccount struct {
 
 var configInstance *FairShareConfig
 
-const defaultConfigPath = "config.yaml"
-
 const defaultENVPrefix = "FSH_"
-
-func InitConfig(path string) {
-	rawConfig := loadConfig(path)
-	validatedConfig := validateConfig(rawConfig)
-	configInstance = &validatedConfig
-}
 
 func GetConfig() *FairShareConfig {
 	if configInstance == nil {
-		InitConfig(defaultConfigPath)
+		panic(fmt.Errorf("config should first be loaded and validated"))
 	}
 	return configInstance
 }
 
-func loadConfig(path string) fairShareRawConfig {
+func LoadConfigFile(path string) {
 
 	viper.AutomaticEnv()
 	viper.BindEnv("HTTP.Host", defaultENVPrefix+"HTTP_HOST")
@@ -60,12 +54,15 @@ func loadConfig(path string) fairShareRawConfig {
 	viper.SetConfigFile(path)
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(errh.PrependErr("failed to read config file "+path, err))
+		panic(errh.PrependErr("failed to read config file %v"+path, err))
 	}
+}
+
+func InitInstance() {
 	confInstance := fairShareRawConfig{}
-	err = viper.Unmarshal(&confInstance)
-	if err != nil {
-		panic(errh.PrependErr("failed to unmarshal config file "+path, err))
+	if err := viper.Unmarshal(&confInstance); err != nil {
+		panic(errh.PrependErr("failed to unmarshal config ", err))
 	}
-	return confInstance
+	validatedConfInstance := validateConfig(confInstance)
+	configInstance = &validatedConfInstance
 }

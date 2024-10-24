@@ -37,7 +37,7 @@ func validateConfig(rawConfig fairShareRawConfig) FairShareConfig {
 
 func validateHTTPConfig(host string, port int) error {
 	if net.ParseIP(host) == nil {
-		return fmt.Errorf("host \"%d\" is not a valid IP address", host)
+		return fmt.Errorf("host \"%v\" is not a valid IP address", host)
 	}
 	if port < 1 || port > 65536 {
 		return fmt.Errorf("port number %d is outside the valid port range (between 1 and 65536)", port)
@@ -64,16 +64,16 @@ func validateAdminAccountsUnique(adminAccounts []AdminAccount) error {
 	var usedSalts [][]byte
 	for index, adminAccount := range adminAccounts {
 		if slices.Contains(usedNames, adminAccount.Name) {
-			return fmt.Errorf("name #%d \"%d\" used multiple times. Admin names must be unique.", index, adminAccount.Name)
+			return fmt.Errorf("name #%d \"%v\" used multiple times. Admin names must be unique", index, adminAccount.Name)
 		}
 		for _, usedPWHash := range usedPWHashes {
 			if bytes.Equal(usedPWHash, adminAccount.PWHash) {
-				return fmt.Errorf("password hash #%d %d used multipse times. Password hashes must be unique.", index, hex.EncodeToString(usedPWHash))
+				return fmt.Errorf("password hash #%d %v used multipse times. Password hashes must be unique", index, hex.EncodeToString(usedPWHash))
 			}
 		}
 		for _, usedSalt := range usedSalts {
 			if bytes.Equal(usedSalt, adminAccount.Salt) {
-				return fmt.Errorf("salt #%d %d used multipse times. Salts must be unique.", index, hex.EncodeToString(usedSalt))
+				return fmt.Errorf("salt #%d %v used multipse times. Salts must be unique", index, hex.EncodeToString(usedSalt))
 			}
 		}
 		usedNames = append(usedNames, adminAccount.Name)
